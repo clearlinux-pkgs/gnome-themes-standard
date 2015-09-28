@@ -4,7 +4,7 @@
 #
 Name     : gnome-themes-standard
 Version  : 3.16.2
-Release  : 1
+Release  : 2
 URL      : http://ftp.gnome.org/pub/gnome/sources/gnome-themes-standard/3.16/gnome-themes-standard-3.16.2.tar.xz
 Source0  : http://ftp.gnome.org/pub/gnome/sources/gnome-themes-standard/3.16/gnome-themes-standard-3.16.2.tar.xz
 Summary  : No detailed summary available
