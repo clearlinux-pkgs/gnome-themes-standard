@@ -1,1 +1,1 @@
---disable-gtk3-engine
+--enable-gtk3-engine --enable-gtk2-engine

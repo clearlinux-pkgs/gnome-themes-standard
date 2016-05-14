@@ -4,7 +4,7 @@
 #
 Name     : gnome-themes-standard
 Version  : 3.16.2
-Release  : 4
+Release  : 5
 URL      : http://ftp.gnome.org/pub/gnome/sources/gnome-themes-standard/3.16/gnome-themes-standard-3.16.2.tar.xz
 Source0  : http://ftp.gnome.org/pub/gnome/sources/gnome-themes-standard/3.16/gnome-themes-standard-3.16.2.tar.xz
 Summary  : No detailed summary available
@@ -13,12 +13,16 @@ License  : LGPL-2.1
 Requires: gnome-themes-standard-lib
 Requires: gnome-themes-standard-data
 BuildRequires : gettext
+BuildRequires : gtk3-dev
 BuildRequires : intltool
+BuildRequires : librsvg-dev
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkgconfig(cairo)
+BuildRequires : pkgconfig(gdk-3.0)
 BuildRequires : pkgconfig(gdk-pixbuf-2.0)
 BuildRequires : pkgconfig(gio-2.0)
 BuildRequires : pkgconfig(gtk+-2.0)
+BuildRequires : pkgconfig(gtk+-3.0)
 BuildRequires : sed
 
 %description
@@ -52,7 +56,7 @@ lib components for the gnome-themes-standard package.
 %setup -q -n gnome-themes-standard-3.16.2
 
 %build
-%configure --disable-static --disable-gtk3-engine
+%configure --disable-static --enable-gtk3-engine --enable-gtk2-engine
 make V=1  %{?_smp_mflags}
 
 %check
@@ -3527,7 +3531,6 @@ rm -rf %{buildroot}
 /usr/share/icons/HighContrast/scalable/status/weather-showers.svg
 /usr/share/icons/HighContrast/scalable/status/weather-snow.svg
 /usr/share/icons/HighContrast/scalable/status/weather-storm.svg
-/usr/share/themes/Adwaita
 /usr/share/themes/Adwaita/gtk-2.0/Arrows/arrow-down-insens.png
 /usr/share/themes/Adwaita/gtk-2.0/Arrows/arrow-down-prelight.png
 /usr/share/themes/Adwaita/gtk-2.0/Arrows/arrow-down-small-insens.png
