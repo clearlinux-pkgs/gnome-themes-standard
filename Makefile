@@ -1,5 +1,5 @@
 PKG_NAME := gnome-themes-standard
-URL := http://ftp.gnome.org/pub/gnome/sources/gnome-themes-standard/3.16/gnome-themes-standard-3.16.2.tar.xz
+URL := https://download.gnome.org/core/3.21/3.21.4/sources/gnome-themes-standard-3.20.2.tar.xz
 ARCHIVES :=
 
 include ../common/Makefile.common
