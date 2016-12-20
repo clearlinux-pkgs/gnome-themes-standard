@@ -4,7 +4,7 @@
 #
 Name     : gnome-themes-standard
 Version  : 3.20.2
-Release  : 6
+Release  : 7
 URL      : https://download.gnome.org/core/3.21/3.21.4/sources/gnome-themes-standard-3.20.2.tar.xz
 Source0  : https://download.gnome.org/core/3.21/3.21.4/sources/gnome-themes-standard-3.20.2.tar.xz
 Summary  : No detailed summary available
@@ -12,11 +12,31 @@ Group    : Development/Tools
 License  : LGPL-2.1
 Requires: gnome-themes-standard-lib
 Requires: gnome-themes-standard-data
+BuildRequires : atk-dev
+BuildRequires : atk-dev32
+BuildRequires : cairo-dev
+BuildRequires : cairo-dev32
+BuildRequires : fontconfig-dev
+BuildRequires : fontconfig-dev32
+BuildRequires : freetype-dev
+BuildRequires : freetype-dev32
+BuildRequires : gcc-dev32
+BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libstdc++32
 BuildRequires : gettext
+BuildRequires : glibc-dev32
+BuildRequires : glibc-libc32
 BuildRequires : gtk3-dev
 BuildRequires : intltool
 BuildRequires : librsvg-dev
+BuildRequires : librsvg-dev32
+BuildRequires : pango-dev
+BuildRequires : pango-dev32
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkgconfig(32cairo)
+BuildRequires : pkgconfig(32gdk-pixbuf-2.0)
+BuildRequires : pkgconfig(32gio-2.0)
+BuildRequires : pkgconfig(32gtk+-2.0)
 BuildRequires : pkgconfig(cairo)
 BuildRequires : pkgconfig(gdk-3.0)
 BuildRequires : pkgconfig(gdk-pixbuf-2.0)
@@ -54,12 +74,23 @@ lib components for the gnome-themes-standard package.
 
 %prep
 %setup -q -n gnome-themes-standard-3.20.2
+pushd ..
+cp -a gnome-themes-standard-3.20.2 build32
+popd
 
 %build
 export LANG=C
 %configure --disable-static --enable-gtk3-engine --enable-gtk2-engine
 make V=1  %{?_smp_mflags}
 
+pushd ../build32/
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export CFLAGS="$CFLAGS -m32"
+export CXXFLAGS="$CXXFLAGS -m32"
+export LDFLAGS="$LDFLAGS -m32"
+%configure --disable-static --enable-gtk3-engine --enable-gtk2-engine --disable-gtk3-engine --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+make V=1  %{?_smp_mflags}
+popd
 %check
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
@@ -69,10 +100,20 @@ make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
 rm -rf %{buildroot}
+pushd ../build32/
+%make_install32
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
+popd
 %make_install
 
 %files
 %defattr(-,root,root,-)
+/usr/lib32/gtk-2.0/2.10.0/engines/libadwaita.so
 
 %files data
 %defattr(-,root,root,-)

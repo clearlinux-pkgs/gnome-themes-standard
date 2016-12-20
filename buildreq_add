@@ -2,3 +2,14 @@
 # picked up automatically. One name per line, no whitespace.
 gtk3-dev
 librsvg-dev
+librsvg-dev32
+pango-dev
+pango-dev32
+cairo-dev
+cairo-dev32
+freetype-dev
+freetype-dev32
+fontconfig-dev
+fontconfig-dev32
+atk-dev
+atk-dev32
