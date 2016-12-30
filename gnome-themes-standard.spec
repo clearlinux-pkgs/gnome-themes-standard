@@ -4,7 +4,7 @@
 #
 Name     : gnome-themes-standard
 Version  : 3.20.2
-Release  : 7
+Release  : 8
 URL      : https://download.gnome.org/core/3.21/3.21.4/sources/gnome-themes-standard-3.20.2.tar.xz
 Source0  : https://download.gnome.org/core/3.21/3.21.4/sources/gnome-themes-standard-3.20.2.tar.xz
 Summary  : No detailed summary available
@@ -80,6 +80,7 @@ popd
 
 %build
 export LANG=C
+export SOURCE_DATE_EPOCH=1483120438
 %configure --disable-static --enable-gtk3-engine --enable-gtk2-engine
 make V=1  %{?_smp_mflags}
 
