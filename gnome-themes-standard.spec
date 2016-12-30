@@ -4,7 +4,7 @@
 #
 Name     : gnome-themes-standard
 Version  : 3.20.2
-Release  : 8
+Release  : 9
 URL      : https://download.gnome.org/core/3.21/3.21.4/sources/gnome-themes-standard-3.20.2.tar.xz
 Source0  : https://download.gnome.org/core/3.21/3.21.4/sources/gnome-themes-standard-3.20.2.tar.xz
 Summary  : No detailed summary available
@@ -72,6 +72,15 @@ Requires: gnome-themes-standard-data
 lib components for the gnome-themes-standard package.
 
 
+%package lib32
+Summary: lib32 components for the gnome-themes-standard package.
+Group: Default
+Requires: gnome-themes-standard-data
+
+%description lib32
+lib32 components for the gnome-themes-standard package.
+
+
 %prep
 %setup -q -n gnome-themes-standard-3.20.2
 pushd ..
@@ -80,7 +89,7 @@ popd
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1483120438
+export SOURCE_DATE_EPOCH=1483126622
 %configure --disable-static --enable-gtk3-engine --enable-gtk2-engine
 make V=1  %{?_smp_mflags}
 
@@ -114,7 +123,6 @@ popd
 
 %files
 %defattr(-,root,root,-)
-/usr/lib32/gtk-2.0/2.10.0/engines/libadwaita.so
 
 %files data
 %defattr(-,root,root,-)
@@ -3755,3 +3763,7 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/gtk-2.0/2.10.0/engines/libadwaita.so
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/gtk-2.0/2.10.0/engines/libadwaita.so
