@@ -4,7 +4,7 @@
 #
 Name     : gnome-themes-standard
 Version  : 3.22.3
-Release  : 13
+Release  : 14
 URL      : https://download.gnome.org/sources/gnome-themes-standard/3.22/gnome-themes-standard-3.22.3.tar.xz
 Source0  : https://download.gnome.org/sources/gnome-themes-standard/3.22/gnome-themes-standard-3.22.3.tar.xz
 Summary  : No detailed summary available
@@ -34,15 +34,19 @@ BuildRequires : pango-dev
 BuildRequires : pango-dev32
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkgconfig(32cairo)
+BuildRequires : pkgconfig(32gdk-2.0)
 BuildRequires : pkgconfig(32gdk-pixbuf-2.0)
 BuildRequires : pkgconfig(32gio-2.0)
 BuildRequires : pkgconfig(32gtk+-2.0)
+BuildRequires : pkgconfig(32librsvg-2.0)
 BuildRequires : pkgconfig(cairo)
+BuildRequires : pkgconfig(gdk-2.0)
 BuildRequires : pkgconfig(gdk-3.0)
 BuildRequires : pkgconfig(gdk-pixbuf-2.0)
 BuildRequires : pkgconfig(gio-2.0)
 BuildRequires : pkgconfig(gtk+-2.0)
 BuildRequires : pkgconfig(gtk+-3.0)
+BuildRequires : pkgconfig(librsvg-2.0)
 BuildRequires : sed
 
 %description
@@ -88,8 +92,11 @@ cp -a gnome-themes-standard-3.22.3 build32
 popd
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1490649111
+export SOURCE_DATE_EPOCH=1500830868
 %configure --disable-static --enable-gtk3-engine --enable-gtk2-engine
 make V=1  %{?_smp_mflags}
 
@@ -105,11 +112,11 @@ popd
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1490649111
+export SOURCE_DATE_EPOCH=1500830868
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
