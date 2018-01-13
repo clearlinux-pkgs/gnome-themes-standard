@@ -1,8 +1,6 @@
 # This file contains additional build requirements that did not get
 # picked up automatically. One name per line, no whitespace.
 gtk3-dev
-librsvg-dev
-librsvg-dev32
 pango-dev
 pango-dev32
 cairo-dev

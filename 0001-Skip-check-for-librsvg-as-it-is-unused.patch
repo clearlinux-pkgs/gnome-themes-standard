@@ -1,0 +1,28 @@
+From f8856ec420dca98c92a7782f852a3d69ddc70f0c Mon Sep 17 00:00:00 2001
+From: William Douglas <william.douglas@intel.com>
+Date: Sat, 13 Jan 2018 00:24:28 +0000
+Subject: [PATCH] Skip check for librsvg as it is unused
+
+Since librsvg was being pulled in by this check and it forces librsvg
+to be needed in 32bit mode (which for rust build reasons we don't want
+to do) skip the check.
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index d701748..97b0c67 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -44,7 +44,7 @@ AC_MSG_RESULT([$enable_gtk3_engine])
+ 
+ GTK_VERSION_REQUIRED=3.9.12
+ if test "x$enable_gtk3_engine" = "xyes"; then
+-  PKG_CHECK_MODULES([GTK3_ENGINE], [gtk+-3.0 >= $GTK_VERSION_REQUIRED librsvg-2.0])
++  PKG_CHECK_MODULES([GTK3_ENGINE], [gtk+-3.0 >= $GTK_VERSION_REQUIRED])
+   PKG_CHECK_MODULES([HIGHCONTRAST], [cairo gio-2.0 gdk-pixbuf-2.0 gdk-3.0])
+ fi
+ 
+-- 
+2.15.1
+

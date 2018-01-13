@@ -4,7 +4,7 @@
 #
 Name     : gnome-themes-standard
 Version  : 3.22.3
-Release  : 14
+Release  : 15
 URL      : https://download.gnome.org/sources/gnome-themes-standard/3.22/gnome-themes-standard-3.22.3.tar.xz
 Source0  : https://download.gnome.org/sources/gnome-themes-standard/3.22/gnome-themes-standard-3.22.3.tar.xz
 Summary  : No detailed summary available
@@ -14,6 +14,8 @@ Requires: gnome-themes-standard-lib
 Requires: gnome-themes-standard-data
 BuildRequires : atk-dev
 BuildRequires : atk-dev32
+BuildRequires : automake
+BuildRequires : automake-dev
 BuildRequires : cairo-dev
 BuildRequires : cairo-dev32
 BuildRequires : fontconfig-dev
@@ -24,15 +26,18 @@ BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
 BuildRequires : gcc-libstdc++32
 BuildRequires : gettext
+BuildRequires : gettext-bin
 BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
 BuildRequires : gtk3-dev
 BuildRequires : intltool
-BuildRequires : librsvg-dev
-BuildRequires : librsvg-dev32
+BuildRequires : libtool
+BuildRequires : libtool-dev
+BuildRequires : m4
 BuildRequires : pango-dev
 BuildRequires : pango-dev32
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(32cairo)
 BuildRequires : pkgconfig(32gdk-2.0)
 BuildRequires : pkgconfig(32gdk-pixbuf-2.0)
@@ -48,6 +53,7 @@ BuildRequires : pkgconfig(gtk+-2.0)
 BuildRequires : pkgconfig(gtk+-3.0)
 BuildRequires : pkgconfig(librsvg-2.0)
 BuildRequires : sed
+Patch1: 0001-Skip-check-for-librsvg-as-it-is-unused.patch
 
 %description
 =====================
@@ -87,6 +93,7 @@ lib32 components for the gnome-themes-standard package.
 
 %prep
 %setup -q -n gnome-themes-standard-3.22.3
+%patch1 -p1
 pushd ..
 cp -a gnome-themes-standard-3.22.3 build32
 popd
@@ -96,18 +103,18 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1500830868
-%configure --disable-static --enable-gtk3-engine --enable-gtk2-engine
-make V=1  %{?_smp_mflags}
-
+export SOURCE_DATE_EPOCH=1515803647
+%reconfigure --disable-static --enable-gtk3-engine --enable-gtk2-engine
+make  %{?_smp_mflags}
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
-%configure --disable-static --enable-gtk3-engine --enable-gtk2-engine --disable-gtk3-engine  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
-make V=1  %{?_smp_mflags}
+%reconfigure --disable-static --enable-gtk3-engine --enable-gtk2-engine --disable-gtk3-engine --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+make  %{?_smp_mflags}
 popd
+
 %check
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
@@ -116,7 +123,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1500830868
+export SOURCE_DATE_EPOCH=1515803647
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
