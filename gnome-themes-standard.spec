@@ -4,7 +4,7 @@
 #
 Name     : gnome-themes-standard
 Version  : 3.22.3
-Release  : 15
+Release  : 16
 URL      : https://download.gnome.org/sources/gnome-themes-standard/3.22/gnome-themes-standard-3.22.3.tar.xz
 Source0  : https://download.gnome.org/sources/gnome-themes-standard/3.22/gnome-themes-standard-3.22.3.tar.xz
 Summary  : No detailed summary available
