@@ -4,7 +4,7 @@
 #
 Name     : gnome-themes-standard
 Version  : 3.22.3
-Release  : 19
+Release  : 20
 URL      : https://download.gnome.org/sources/gnome-themes-standard/3.22/gnome-themes-standard-3.22.3.tar.xz
 Source0  : https://download.gnome.org/sources/gnome-themes-standard/3.22/gnome-themes-standard-3.22.3.tar.xz
 Summary  : No detailed summary available
@@ -22,6 +22,7 @@ BuildRequires : fontconfig-dev
 BuildRequires : fontconfig-dev32
 BuildRequires : freetype-dev
 BuildRequires : freetype-dev32
+BuildRequires : fribidi-dev32
 BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
 BuildRequires : gcc-libstdc++32
@@ -103,7 +104,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1515803647
+export SOURCE_DATE_EPOCH=1527270662
 %reconfigure --disable-static --enable-gtk3-engine --enable-gtk2-engine
 make  %{?_smp_mflags}
 pushd ../build32/
@@ -123,7 +124,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1515803647
+export SOURCE_DATE_EPOCH=1527270662
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
