@@ -4,18 +4,20 @@
 #
 Name     : gnome-themes-standard
 Version  : 3.22.3
-Release  : 21
+Release  : 22
 URL      : https://download.gnome.org/sources/gnome-themes-standard/3.22/gnome-themes-standard-3.22.3.tar.xz
 Source0  : https://download.gnome.org/sources/gnome-themes-standard/3.22/gnome-themes-standard-3.22.3.tar.xz
-Summary  : No detailed summary available
+Summary  : Extra Themes for GNOME Applications
 Group    : Development/Tools
 License  : LGPL-2.1
-Requires: gnome-themes-standard-lib
-Requires: gnome-themes-standard-data
+Requires: gnome-themes-standard-data = %{version}-%{release}
+Requires: gnome-themes-standard-lib = %{version}-%{release}
+Requires: gnome-themes-standard-license = %{version}-%{release}
 BuildRequires : atk-dev
 BuildRequires : atk-dev32
 BuildRequires : automake
 BuildRequires : automake-dev
+BuildRequires : buildreq-gnome
 BuildRequires : cairo-dev
 BuildRequires : cairo-dev32
 BuildRequires : fontconfig-dev
@@ -38,6 +40,7 @@ BuildRequires : m4
 BuildRequires : pango-dev
 BuildRequires : pango-dev32
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkg-config
 BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(32cairo)
 BuildRequires : pkgconfig(32gdk-2.0)
@@ -77,7 +80,8 @@ data components for the gnome-themes-standard package.
 %package lib
 Summary: lib components for the gnome-themes-standard package.
 Group: Libraries
-Requires: gnome-themes-standard-data
+Requires: gnome-themes-standard-data = %{version}-%{release}
+Requires: gnome-themes-standard-license = %{version}-%{release}
 
 %description lib
 lib components for the gnome-themes-standard package.
@@ -86,10 +90,19 @@ lib components for the gnome-themes-standard package.
 %package lib32
 Summary: lib32 components for the gnome-themes-standard package.
 Group: Default
-Requires: gnome-themes-standard-data
+Requires: gnome-themes-standard-data = %{version}-%{release}
+Requires: gnome-themes-standard-license = %{version}-%{release}
 
 %description lib32
 lib32 components for the gnome-themes-standard package.
+
+
+%package license
+Summary: license components for the gnome-themes-standard package.
+Group: Default
+
+%description license
+license components for the gnome-themes-standard package.
 
 
 %prep
@@ -104,14 +117,22 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1527270662
+export SOURCE_DATE_EPOCH=1556991032
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %reconfigure --disable-static --enable-gtk3-engine --enable-gtk2-engine
 make  %{?_smp_mflags}
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-export CFLAGS="$CFLAGS -m32"
-export CXXFLAGS="$CXXFLAGS -m32"
-export LDFLAGS="$LDFLAGS -m32"
+export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
 %reconfigure --disable-static --enable-gtk3-engine --enable-gtk2-engine --disable-gtk3-engine --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
@@ -122,10 +143,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
+cd ../build32;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1527270662
+export SOURCE_DATE_EPOCH=1556991032
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/gnome-themes-standard
+cp COPYING %{buildroot}/usr/share/package-licenses/gnome-themes-standard/COPYING
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -3959,3 +3984,7 @@ popd
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/gtk-2.0/2.10.0/engines/libadwaita.so
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/gnome-themes-standard/COPYING
