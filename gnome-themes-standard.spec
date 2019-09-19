@@ -4,10 +4,10 @@
 #
 Name     : gnome-themes-standard
 Version  : 3.22.3
-Release  : 23
+Release  : 24
 URL      : https://download.gnome.org/sources/gnome-themes-standard/3.22/gnome-themes-standard-3.22.3.tar.xz
 Source0  : https://download.gnome.org/sources/gnome-themes-standard/3.22/gnome-themes-standard-3.22.3.tar.xz
-Summary  : Extra Themes for GNOME Applications
+Summary  : No detailed summary available
 Group    : Development/Tools
 License  : LGPL-2.1
 Requires: gnome-themes-standard-data = %{version}-%{release}
@@ -116,8 +116,9 @@ popd
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1557006796
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1568855709
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -130,15 +131,15 @@ make  %{?_smp_mflags}
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
-export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
-export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
-export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 %reconfigure --disable-static --enable-gtk3-engine --enable-gtk2-engine --disable-gtk3-engine --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -147,7 +148,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1557006796
+export SOURCE_DATE_EPOCH=1568855709
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gnome-themes-standard
 cp COPYING %{buildroot}/usr/share/package-licenses/gnome-themes-standard/COPYING
